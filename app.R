@@ -1,5 +1,9 @@
-options("scipen"=100, "digits"=4)
+#  remove scientific notation
+options("scipen"=100, "digits"=4) 
+# set working directory
 setwd(dirname(rstudioapi::getActiveDocumentContext()[[2]]))
+
+# install.packages(c("shiny", "knitr", "shinyWidgets", "shinythemes", "ggplot2", "plotly", "dplyr", "leaflet", "RColorBrewer", "htmltools", "kableExtra", "png", "rsconnect"))
 library(shiny)
 library(knitr)
 library(shinyWidgets)
@@ -13,7 +17,8 @@ library(htmltools)
 library(kableExtra)
 library(png)
 library(rsconnect)
-# https://public.opendatasoft.com/explore/dataset/significant-earthquake-database/table/?sort=deaths
+
+# DATABASE: https://public.opendatasoft.com/explore/dataset/significant-earthquake-database/table/?sort=deaths
 
 
 data <- read.csv("https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/significant-earthquake-database/exports/csv?lang=en&timezone=Europe%2FHelsinki&use_labels=true&delimiter=%3B", sep = ";")
@@ -45,8 +50,9 @@ data <- data %>%
          Total.Effects...Injuries = ifelse(is.na(Total.Effects...Injuries), "teadmata", as.character(Total.Effects...Injuries)))
 
 #-----------------------------------------
-#FUNKTSIOONID 
+# FUNKTIONS
 
+# map \page 1
 add_cord <- function(period, continent, layer) {
   kaart <- leaflet() %>%
     addTiles() 
@@ -101,6 +107,7 @@ add_cord <- function(period, continent, layer) {
 
 add_cord("kogu aeg", "kõik kontinendid", providers$CartoDB.Positron)
 
+# sort and show data \page 2
 topn = function(data, s, n1){
   data2 <- data %>%
     arrange(desc(s))
@@ -109,6 +116,7 @@ topn = function(data, s, n1){
   return(t)
 }
 
+# tsunami status \page 3 second graph
 tsunami <- function(data, period, continent) {
   
   if (period == "kogu aeg" & continent == "kõik kontinendid"){
@@ -145,6 +153,7 @@ tsunami <- function(data, period, continent) {
 
 tsunami(data, "kogu aeg", "kõik kontinendid")
 
+# bubble function \page 2 second graph
 bubble <- function(data, n, s) {
   p <- data %>% 
     arrange(desc(s))
@@ -166,6 +175,7 @@ bubble <- function(data, n, s) {
 
 bubble(data, 50, data$EQ.Primary)
 
+# \page 3 first graph
 proportion <- function(data, continent, period) {
   if (period == "kogu aeg" & continent == "kõik kontinendid"){
     period_data = data
@@ -220,6 +230,7 @@ proportion <- function(data, continent, period) {
 
 proportion(data, "Europe", "kogu aeg")
 
+# \page 2 3rd graph
 density <- function(data, n, s) {
   p <- data %>% 
     arrange(desc(s))
