@@ -1,0 +1,28 @@
+input[type="number"] {
+  max-width: 80%;
+}
+
+div.outer {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+body, label, input, button, select { 
+  font-family: font-family: 'Raleway';
+  font-weight: 200;
+  color: black;
+}
+h1, h2, h3, h4 { font-weight: 500;}
+
+#controls {
+  /* Appearance */
+  background-color: white;
+  opacity: 0.75;
+  border-radius: 5px;
+  padding: 5px 10px 0px 10px;
+  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2)
